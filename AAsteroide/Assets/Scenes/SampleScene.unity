@@ -456,7 +456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thrustForce: 100
-  rotationSpeed: 10
+  rotationSpeed: 100
   gun: {fileID: 650046479}
   bulletPrefab: {fileID: 369622255993878205, guid: 7cfba982c5c970e41bdbb498ac4f3abf, type: 3}
 --- !u!1001 &9056979442849275883

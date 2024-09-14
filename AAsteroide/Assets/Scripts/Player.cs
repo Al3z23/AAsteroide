@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,9 @@ public class Player : MonoBehaviour
         float thrust = Input.GetAxis("Thrust") * Time.deltaTime * thrustForce;
         Vector3 thrustDirection = transform.right;
         _rigid.AddForce(thrustDirection * thrust);
-        transform.Rotate(Vector3.forward, -rotation + rotationSpeed);
+        transform.Rotate(Vector3.forward, -rotation * rotationSpeed);
+        
+        
 
         if(Input.GetKeyDown(KeyCode.Space)){
             GameObject bullet = Instantiate(bulletPrefab, gun.transform.position, Quaternion.identity);
