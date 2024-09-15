@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class Player : MonoBehaviour
     public float rotationSpeed = 120f;
 
     public GameObject gun, bulletPrefab;
+    public static int SCORE = 0;
+    public static float xBorderLimit = 6f, yBorderLimit = 5f;
 
     private Rigidbody _rigid;
 
@@ -21,6 +24,21 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        var newPos = transform.position;
+        if(newPos.x > xBorderLimit){
+            newPos.x = -xBorderLimit + 1;
+        }
+        else if(newPos.x < -xBorderLimit){
+            newPos.x = xBorderLimit - 1;
+        }
+        else if(newPos.y > yBorderLimit){
+            newPos.y = -yBorderLimit + 1;
+        }
+        else if(newPos.y < -yBorderLimit){
+            newPos.y = yBorderLimit - 1;
+        }
+        transform.position = newPos;
+        
         float rotation = Input.GetAxis("Rotate") * Time.deltaTime;
         float thrust = Input.GetAxis("Thrust") * Time.deltaTime * thrustForce;
         Vector3 thrustDirection = transform.right;
@@ -34,5 +52,13 @@ public class Player : MonoBehaviour
             Bullet balaScript = bullet.GetComponent<Bullet>();
             balaScript.targetVector = transform.right;
         }
+    }
+
+    private void OnCollisionEnter (Collision collision){
+        if(collision.gameObject.tag == "Enemy"){
+            SCORE = 0;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    
     }
 }
