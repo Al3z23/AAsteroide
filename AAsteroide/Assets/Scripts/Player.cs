@@ -55,7 +55,7 @@ public class Player : MonoBehaviour
     }
 
     private void OnCollisionEnter (Collision collision){
-        if(collision.gameObject.tag == "Enemy"){
+        if(collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Small Enemy"){
             SCORE = 0;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }

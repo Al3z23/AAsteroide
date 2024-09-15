@@ -7,11 +7,11 @@ using UnityEngine.SocialPlatforms.Impl;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject asteroidPrefab;
+
     public float spawnRatePerMinute = 30f;
     public float spawnRateIncrement = 1f;
     public float xLimit;
     public float maxTimeLife = 4f;
-
 
     private float spawnNext = 0;
 
