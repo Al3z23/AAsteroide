@@ -11,15 +11,21 @@ public class Bullet : MonoBehaviour
     public float maxLifeTime = 3f;
     public Vector3 targetVector; 
 
+    private bool Semaphore = true;
+
 
     public GameObject miniMeteorPrefab;
     
     public float maxMMTimeLife = 2f;
 
-    // Start is called before the first frame update
+    private void SetFalse(){
+        gameObject.SetActive(false);
+    }
+
     void Start()
     {
-        Destroy(gameObject, maxLifeTime);
+        //Destroy(gameObject, maxLifeTime); //Sin object pooling
+        Invoke("SetFalse",maxLifeTime);
     }
 
     // Update is called once per frame
@@ -28,17 +34,26 @@ public class Bullet : MonoBehaviour
         transform.Translate(speed  * targetVector * Time.deltaTime);
     }
 
+
+    private void SemaphoreOn(){
+        Semaphore = true;
+    }
+
     private void OnCollisionEnter (Collision collision){
-        if(collision.gameObject.CompareTag("Enemy")){
-            //IncreaseScore();
+        if(collision.gameObject.CompareTag("Enemy") && Semaphore){
+            Semaphore = false; //evita problema de condicion de carrera
+            IncreaseScore();
             Destroy(collision.gameObject);
-            Destroy(gameObject);
+            //Destroy(gameObject); //destruir bala sin object pooling
             DivideMeteor();
+            gameObject.SetActive(false);
+            Invoke("SemaphoreOn", 0.6f); //evita problema de condicion de carrera
         }
         else if(collision.gameObject.CompareTag("Small Enemy")){
             IncreaseScore();
             Destroy(collision.gameObject);
-            Destroy(gameObject);
+            //Destroy(gameObject); //destruir bala sin object pooling
+            gameObject.SetActive(false);
         }
 
     }

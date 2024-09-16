@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     public float thrustForce = 100f;
     public float rotationSpeed = 120f;
 
-    public GameObject gun, bulletPrefab;
+    public GameObject gun;
     public static int SCORE = 0;
     public static float xBorderLimit = 6f, yBorderLimit = 5f;
 
@@ -48,7 +48,10 @@ public class Player : MonoBehaviour
         
 
         if(Input.GetKeyDown(KeyCode.Space)){
-            GameObject bullet = Instantiate(bulletPrefab, gun.transform.position, Quaternion.identity);
+            //GameObject bullet = Instantiate(bulletPrefab, gun.transform.position, Quaternion.identity); 
+            //Sin object pooling
+            GameObject bullet = BulletPool.Instance.RequestBullet();
+            bullet.transform.position = gun.transform.position;
             Bullet balaScript = bullet.GetComponent<Bullet>();
             balaScript.targetVector = transform.right;
         }
